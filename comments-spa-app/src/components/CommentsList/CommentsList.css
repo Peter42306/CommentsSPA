@@ -1,0 +1,7 @@
+.CommentsList {
+    font-family: "Comfortaa", sans-serif;
+}
+
+.comment-text{
+    white-space: pre-wrap;
+}

@@ -1,0 +1,33 @@
+# Runtime image
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
+WORKDIR /app
+
+# Installation font Dejavu Sans for captcha
+RUN apt-get update \
+  && apt-get install -y --no-install-recommends fonts-dejavu-core \
+  && rm -rf /var/lib/apt/lists/*
+
+ENV ASPNETCORE_URLS=http://+:8080
+
+# Build image
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /src
+
+# Copy project files and restore dependencies
+COPY CommentsSpaApi/CommentsSpaApi/CommentsSpaApi.csproj ./CommentsSpaApi/CommentsSpaApi/
+RUN dotnet restore "CommentsSpaApi/CommentsSpaApi/CommentsSpaApi.csproj"
+
+# Copy of the rest of the source code
+COPY CommentsSpaApi ./CommentsSpaApi
+
+# Build and publish
+WORKDIR /src/CommentsSpaApi/CommentsSpaApi
+RUN dotnet publish "CommentsSpaApi.csproj" -c Release -o /app/publish
+
+# Final image
+FROM base AS final
+WORKDIR /app
+COPY --from=build /app/publish .
+
+# Start
+ENTRYPOINT [ "dotnet", "CommentsSpaApi.dll" ]

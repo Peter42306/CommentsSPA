@@ -1,0 +1,22 @@
+# Node image
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Install dependencies
+COPY comments-spa-app/package*.json ./
+
+RUN npm install
+
+# Copy application sources
+COPY comments-spa-app ./
+
+# CRA dev server port
+EXPOSE 3000
+
+# Settings for CRA inside Docker
+ENV CHOKIDAR_USEPOLLING=true
+ENV WDS_SOCKET_PORT=0
+
+# Start
+CMD [ "npm", "start" ]

@@ -1,0 +1,19 @@
+# Build
+**/bin/
+**/obj/
+
+# IDE
+**/.vs/
+**/.vscode/
+
+# Node modules
+**/node_modules/
+
+#Git
+.git
+
+# Additionally
+uploads/
+**/uploads/
+.env
+**/.env

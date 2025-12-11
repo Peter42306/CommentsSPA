@@ -1,0 +1,56 @@
+version: '3.9'
+
+services:
+
+  db:
+    image: postgres:16
+    container_name: comments_db
+    restart: always
+    environment:
+      POSTGRES_DB: commentsdb
+      POSTGRES_USER: appuser
+      POSTGRES_PASSWORD: supersecret
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - app-net
+
+  api:
+    build: 
+      context: .
+      dockerfile: Dockerfile.api
+    container_name: comments_api
+    restart: always
+    depends_on:
+      - db
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"      
+      ConnectionStrings__DefaultConnection: "Host=db;Port=5432;Database=commentsdb;Username=appuser;Password=supersecret"
+    ports:
+      - "5000:8080"
+    volumes:
+      - uploads_data:/app/wwwroot/uploads
+    networks:
+      - app-net
+
+  frontend:
+    build: 
+      context: .
+      dockerfile: Dockerfile.frontend
+    container_name: comments_frontend
+    restart: always
+    depends_on:
+      - api
+    ports:
+      - "3000:3000"
+    networks:
+      - app-net
+
+networks:
+  app-net:
+
+volumes:
+  db_data:
+  uploads_data:
