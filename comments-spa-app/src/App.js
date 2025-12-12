@@ -590,7 +590,7 @@ function App() {
       )}
       {!isLoadingComments && comments.length === 0 && (
         <div className='card p-3'>          
-          <p>No commentss yet</p>
+          <p>No comments yet</p>
         </div>                  
       )}
       {!isLoadingComments && comments.length > 0 && (
