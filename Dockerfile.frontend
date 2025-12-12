@@ -1,22 +1,22 @@
 # Node image
-FROM node:20-alpine
+FROM node:20-alpine AS build
 
 WORKDIR /app
 
 # Install dependencies
 COPY comments-spa-app/package*.json ./
-
 RUN npm install
 
 # Copy application sources
 COPY comments-spa-app ./
+RUN npm run build
 
-# CRA dev server port
-EXPOSE 3000
+# Nginx
+FROM nginx:alpine
+WORKDIR /usr/share/nginx/html
 
-# Settings for CRA inside Docker
-ENV CHOKIDAR_USEPOLLING=true
-ENV WDS_SOCKET_PORT=0
+RUN rm -rf ./*
+COPY --from=build /app/build .
 
-# Start
-CMD [ "npm", "start" ]
+EXPOSE 80
+CMD [ "nginx", "-g", "daemon off;" ]
