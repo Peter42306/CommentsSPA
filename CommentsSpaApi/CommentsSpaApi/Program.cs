@@ -27,6 +27,13 @@ builder.Services.AddScoped<IAttachmentService, AttachmentService>();
 
 var app = builder.Build();
 
+var webRoot = app.Environment.WebRootPath ?? Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
+var uploadsRoot = Path.Combine(webRoot, "uploads");
+
+Directory.CreateDirectory(uploadsRoot);
+Directory.CreateDirectory(Path.Combine(uploadsRoot, "images"));
+Directory.CreateDirectory(Path.Combine(uploadsRoot, "text"));
+
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
