@@ -13,11 +13,5 @@
 .git
 
 # Additionally
-uploads/*
-uploads/images/*
-uploads/text/*
-!uploads/.gitkeep
-!uploads/images/.gitkeep
-!uploads/text/.gitkeep
-.env
-**/.env
+uploads/
+**/uploads
