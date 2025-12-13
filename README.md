@@ -61,6 +61,8 @@ CommentsSPA/
  ├─ comments-spa-app/         # React SPA (Create React App)
  │   ├─ src/
  │   ├─ public/
+ │   ├─ nginx/
+ │   │   └─ default.conf     # Nginx config for frontend + proxy to API
  │   └─ package.json
  ├─ db/
  │   └─ schema.sql            # Database schema
