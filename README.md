@@ -13,6 +13,7 @@ This project was built with focus on:
 
 - Post a new comment
 - Reply to an existing comment (nested structure)
+- Rich text input for comments (basic formatting: bold, italic, code, links)
 - Pagination and sorting of comments
 - Basic validation on both client and server
 - CAPTCHA protection
