@@ -1,16 +1,23 @@
 # Comments SPA
 
-This repository contains a simple application for comments with nested replies, images and text attachments, and captcha protection implemented as a Single Page Application (SPA):
+A full-stack template for comments with nested replies, file attachments, CAPTCHA protection, XSS safety, and Docker-based deployment.
 
-- **Backend**: ASP.NET Core Web API + Entity Framework Core + PostgreSQL
-- **Frontend**: React (Create React App) + Bootstrap
-- **Database**: PostgreSQL
+This project was built with focus on:
+- building and deploying a full-stack application end-to-end
+- Dockerized backend, frontend and database
+- clean REST API design
+- ASP.NET Core Web API + React + PostgreSQL stack
+- SPA architecture
 
-The goal of this project is to demonstrate:
-- API design and backend development with .NET
-- Frontend skills with React
-- Basic Docker and docker-compose usage
-- Database design and documentation (schema.sql)
+## Features
+
+- Post a new comment
+- Reply to an existing comment (nested structure)
+- Pagination and sorting of comments
+- Basic validation on both client and server
+- CAPTCHA protection
+- XSS-safe text rendering (sanitized HTML)
+- File attachments for comments (stored on server, path kept in DB)
 
 ## Screenshots
 ![Screenshot 2025-12-13 110433](https://github.com/user-attachments/assets/abff890e-a179-4624-94e9-ea4adbb27fbc)
@@ -22,15 +29,6 @@ The goal of this project is to demonstrate:
 ![Screenshot 2025-12-13 110828](https://github.com/user-attachments/assets/a11bfbbb-8736-42af-912c-fd3c48955843)
 
 
-## Features
-
-- Post a new comment
-- Reply to an existing comment (nested structure)
-- Pagination and sorting of comments
-- Basic validation on both client and server
-- XSS-safe text rendering (sanitized HTML)
-- File attachments for comments (stored on server, path kept in DB)
-
 ## Technology stack
 
 **Backend**
@@ -38,6 +36,7 @@ The goal of this project is to demonstrate:
 - ASP.NET Core Web API
 - Entity Framework Core
 - PostgreSQL
+- RESTful API design
 
 **Frontend**
 
@@ -50,6 +49,8 @@ The goal of this project is to demonstrate:
 
 - Docker
 - docker-compose
+- Nginx (reverse proxy)
+- Linux server deployment
 
 ## Project structure
 
@@ -77,7 +78,31 @@ CommentsSPA/
  └─ README.md
 ```
 
- ## Running project with Docker
+ ## API features
+
+ **Comments**
+
+ - GET    /api/comments/all — retrieve all comments (flat list, used to build nested structure on the client)
+ - GET    /api/comments — paginated and sortable list of root comments
+ - GET    /api/comments/{id} — get a single comment by id
+ - POST   /api/comments — create a new comment (root or reply)
+
+**Comments sorting and pagination (query parameters)**
+- page
+- pageSize
+- sortBy (createdAt, username, email)
+- sortDirection (asc, desc)
+
+**Attachments**
+
+- POST   /api/comments/{commentId}/attachments — upload attachment for a comment (multipart/form-data)
+- GET    /api/comments/{commentId}/attachments — list attachments for a comment
+
+**CAPTCHA**
+
+- GET    /api/captcha — generate a new CAPTCHA challenge
+
+## Running project with Docker
 
 ### Clone repository
 
